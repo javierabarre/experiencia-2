@@ -1,57 +1,42 @@
 /*
-  Ping))) Sensor
-
-  This sketch reads a PING))) ultrasonic
-  rangefinder and returns the distance to the
-  closest object in range. To do this, it sends a
-  pulse to the sensor to initiate a reading, then
-  listens for a pulse to return.  The length of
-  the returning pulse is proportional to the
-  distance of the object from the sensor.
-
-  The circuit:
-   * +V connection of the PING))) attached to +5V
-   * GND connection attached to ground
-   * SIG connection attached to digital pin 7
-
-  http://www.arduino.cc/en/Tutorial/Ping
-
-  This example code is in the public domain.
+ Experiencia 2 telémetro ultrasonico conectado a una sola terminal SIG ,
+ que cumple función trig y eco 
 */
 
-int inches = 0;
+int inches = 0;// se define variables tipo pulgadas enteras
 
-int cm = 0;
-
+int cm = 0;// se define variables de tipo cm enteras 
+/*Función de Tipo Long significa que entrega valores de más decimales aumentando precisión */
 long readUltrasonicDistance(int triggerPin, int echoPin)
 {
-  pinMode(triggerPin, OUTPUT);  // Clear the trigger
-  digitalWrite(triggerPin, LOW);
-  delayMicroseconds(2);
-  // Sets the trigger pin to HIGH state for 10 microseconds
-  digitalWrite(triggerPin, HIGH);
+  pinMode(triggerPin, OUTPUT);  // se enciende  TRIG
+  digitalWrite(triggerPin, LOW);// Se apaga  trig
+  delayMicroseconds(2);// por dos segundos se apaga TRIG 
+  
+  digitalWrite(triggerPin, HIGH);// Enciende Trig por 10 milisegundos emite señal
   delayMicroseconds(10);
-  digitalWrite(triggerPin, LOW);
-  pinMode(echoPin, INPUT);
-  // Reads the echo pin, and returns the sound wave travel time in microseconds
-  return pulseIn(echoPin, HIGH);
+  digitalWrite(triggerPin, LOW);// se apaga Trig 
+  pinMode(echoPin, INPUT);// eco se enciende para recibir la señal reflejada
+  
+  return pulseIn(echoPin, HIGH);// retorna valores de distancia
 }
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(9600);// comunicación serial 9600  caracteres por segundo 
 
 }
 
 void loop()
 {
-  // measure the ping time in cm
-  cm = 0.01723 * readUltrasonicDistance(7, 7);
+  //medida en cm 
+  ,m = 0.01723 * readUltrasonicDistance(7, 7);// la funcion definida anteriormete en terminal 7,7 es decir SIG
   // convert to inches by dividing by 2.54
   inches = (cm / 2.54);
+  //MONITOR SERIE MUESTRA LA DISTANCIAS 
   Serial.print(inches);
   Serial.print("in, ");
   Serial.print(cm);
   Serial.println("cm");
-  delay(100); // Wait for 100 millisecond(s)
+  delay(100); // ESPERA 100 MILISEGUN
 }
